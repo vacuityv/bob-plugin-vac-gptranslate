@@ -21,6 +21,8 @@
 
 1. 访问 [此网站](https://chat.vacuity.me/)，注册账号；
 
+<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/site.jpg" width="200px">
+
 ![image](https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/site.jpg)
 
 2. 注册成功后即可使用
