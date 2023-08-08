@@ -19,6 +19,22 @@
             "identifier": "loginPassword",
             "type": "text",
             "title": "登录密码"
+        },
+        {
+            "identifier": "useStreamFlag",
+            "type": "menu",
+            "title": "流式传输",
+            "defaultValue": "false",
+            "menuValues": [
+                {
+                    "title": "不使用",
+                    "value": "n"
+                },
+                {
+                    "title": "使用(需要版本>=1.8.0)",
+                    "value": "y"
+                }
+            ]
         }
     ]
 }

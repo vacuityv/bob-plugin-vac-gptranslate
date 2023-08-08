@@ -33,26 +33,51 @@ var langMap = {
     'ar': '阿拉伯语'
 };
 
+var socket = '';
+var readyState = false;
+var connectIng = true;
+
 function supportLanguages() {
     return ['auto', 'zh-Hans', 'zh-Hant', 'yue', 'wyw', 'pysx', 'en', 'ja', 'ko', 'fr', 'de', 'es', 'it', 'ru', 'pt', 'nl', 'pl', 'ar'];
 }
 
 function translate(query, completion) {
-    var account = $option.loginAccount;
-    var password = $option.loginPassword;
-    var content = query['text'];
+
+    var streamSupFlag = false;
+    var useStreamFlag = $option.useStreamFlag;
+    try {
+        var env = $env;
+        if (typeof env !== "undefined") {
+            appVersion = $env.appVersion;
+            if (appVersion >= '1.8.0') {
+                streamSupFlag = true;
+            }
+        }
+    } catch (error) {
+        $log.info('get env error, process as old version');
+    }
+    $log.info('streamSupFlag');
+    $log.info(streamSupFlag);
+    $log.info('useStreamFlag');
+    $log.info(useStreamFlag);
+
+
+    if (streamSupFlag && useStreamFlag === 'y') {
+        newTrans(query, completion);
+    } else {
+        oldTranslate(query, completion);
+    }
+}
+
+function oldTranslate(query, completion) {
+
     $http.request({
         method: "POST",
         url: "https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate",
         header: {
             "Content-Type": "application/json;charset=UTF-8"
         },
-        body: {
-            email: account,
-            password: password,
-            content: content,
-            targetLanguage: langMap[query['to']],
-        },
+        body: initReqBody(query),
         handler: function (resp) {
             $log.info('请求结果');
             $log.info(util.desc(resp));
@@ -75,3 +100,46 @@ function translate(query, completion) {
         }
     });
 }
+
+
+function newTrans(query, completion) {
+
+    resTxt = '';
+    $http.streamRequest({
+        method: "POST",
+        url: "https://chat.vacuity.me/vac-chat-api/chat/ext/loginStreamTranslate",
+        header: {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: initReqBody(query),
+        streamHandler: function (resp) {
+            var txt = resp.text;
+            resTxt = resTxt + txt;
+            translateResult = {
+                'toParagraphs': [resTxt]
+            }
+            query.onStream({'result': translateResult});
+        },
+        handler: function (data, rawData, response, error) {
+            query.onCompletion({
+                result: {
+                    toParagraphs: [resTxt],
+                }
+            });
+        }
+    });
+}
+
+function initReqBody(query) {
+    var account = $option.loginAccount;
+    var password = $option.loginPassword;
+    var content = query['text'];
+
+    return {
+        email: account,
+        password: password,
+        content: content,
+        targetLanguage: langMap[query['to']],
+    };
+}
+
