@@ -6,9 +6,12 @@
 
 效果展示：
 
+<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/develop/img/gpt_for_chrome.gif" width="800px">
+
+插件地址：[chrome webstore](https://chrome.google.com/webstore/detail/gpt%E7%BF%BB%E8%AF%91/ppfhdgbgjbbeoemlcoamnhcmgngoknge/related)
 
 
-## 效果展示
+## bob效果展示
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/show.jpg" width="800px">
 
