@@ -2,7 +2,16 @@
 
 为Bob编写的通过调用chatgpt接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0）
 
-## 效果展示
+## 为chrome开发的选词翻译插件
+
+效果展示：
+
+<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/develop/img/gpt_for_chrome.gif" width="800px">
+
+插件地址：[chrome webstore](https://chrome.google.com/webstore/detail/gpt%E7%BF%BB%E8%AF%91/ppfhdgbgjbbeoemlcoamnhcmgngoknge/related)
+
+
+## bob效果展示
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/show.jpg" width="800px">
 
