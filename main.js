@@ -63,7 +63,8 @@ function translate(query, completion) {
 
 
     if (streamSupFlag && useStreamFlag === 'y') {
-        newTrans(query, completion);
+        // newTrans(query, completion);
+        websocketTrans(query, completion);
     } else {
         oldTranslate(query, completion);
     }
@@ -130,6 +131,118 @@ function newTrans(query, completion) {
     });
 }
 
+
+var websocket = null;
+
+var count = 0;
+var timerId = 0;
+var signal = $signal.new()
+
+function initWebsocket() {
+    if (websocket == null) {
+        $log.info(`initWebsocket`)
+        websocket = $websocket.new({
+            url: "wss://chat.vacuity.me/vac-chat-api/stream/chat/chat",
+            allowSelfSignedSSLCertificates: true,
+            timeoutInterval: 100,
+            header: {
+                "Sec-WebSocket-Protocol": "someother protocols",
+                "Sec-WebSocket-Version": "14",
+            }
+        })
+        websocket.open();
+        websocket.listenOpen(function (socket) {
+            $log.info(`did open`);
+
+            websocket.listenError(function (socket, error) {
+                $log.info(`did error: code=${error.code}; message=${error.message}; type=${error.type}`);
+            })
+            websocket.listenReceiveData(function (socket, data) {
+                $log.info(`did receive data: length=${data.length}`);
+                count = 0;
+                signal.send({"message": data})
+            })
+            socket.listenReceiveString(function (socket, string) {
+                $log.info(`did receive string: ${string}`);
+                count = 0;
+                signal.send({"message": string})
+            })
+        })
+
+        count = 0;
+
+        if (timerId != 0) {
+            $timer.invalidate(timerId);
+        }
+
+        timerId = $timer.schedule({
+            interval: 10,
+            repeats: true,
+            handler: function () {
+                count += 1;
+                $log.info(`count=${count}`)
+                // 空闲 10*60s 后关闭
+                if (count > 60) {
+                    $timer.invalidate(timerId);
+                    if (websocket != null) {
+                        websocket.close();
+                    }
+                }
+            }
+        });
+    }
+}
+
+function sendSocketMsg(msg) {
+    $log.info(`sendSocketMsg`)
+    count = 0;
+    if (websocket == null || websocket.readyState == 2 || websocket.readyState == 3) {
+        websocket = null;
+        initWebsocket();
+    }
+    if (websocket.readyState == 1) {
+        $log.info('readyState == 1')
+        websocket.sendString(msg);
+    } else {
+        var stateTimerId = $timer.schedule({
+            interval: 1,
+            repeats: true,
+            handler: function () {
+                $log.info(`checkready...state=${websocket.readyState}`)
+                if (websocket.readyState == 1) {
+                    $timer.invalidate(stateTimerId);
+                    websocket.sendString(msg);
+                }
+            }
+        });
+    }
+}
+
+function websocketTrans(query, completion) {
+    $log.info(`websocketTrans`)
+    // 移除所有订阅制
+    signal.removeAllSubscriber();
+    resTxt = '';
+    sendSocketMsg(JSON.stringify(initReqBody(query)));
+    signal.subscribe(function (data) {
+        msg = data.message
+        if (msg == '###FINISH###') {
+            query.onCompletion({
+                result: {
+                    toParagraphs: [resTxt],
+                }
+            });
+            return;
+        } else {
+            resTxt = resTxt + msg
+            translateResult = {
+                'toParagraphs': [resTxt]
+            }
+            query.onStream({'result': translateResult});
+        }
+    })
+}
+
 function initReqBody(query) {
     var account = $option.loginAccount;
     var password = $option.loginPassword;
@@ -140,6 +253,7 @@ function initReqBody(query) {
         password: password,
         content: content,
         targetLanguage: langMap[query['to']],
+        translateFrom: 'bob'
     };
 }
 

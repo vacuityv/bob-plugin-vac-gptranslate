@@ -1,6 +1,6 @@
 # bob-plugin-vac-gptranslate
 
-为Bob编写的通过调用chatgpt接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0）
+为Bob编写的通过调用chatgpt接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0，采用长连接处理）
 
 ## 为chrome开发的选词翻译插件
 

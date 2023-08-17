@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用chatgpt实现翻译功能",
