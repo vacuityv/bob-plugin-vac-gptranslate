@@ -168,6 +168,9 @@ function initWebsocket() {
                 signal.send({"message": string})
             })
         })
+        websocket.listenClose(function (socket, code, reason) {
+            $log.info(`did close: code=${code}; reason=${reason}`);
+        })
 
         count = 0;
 
@@ -179,6 +182,7 @@ function initWebsocket() {
             interval: 10,
             repeats: true,
             handler: function () {
+                websocket.ping()
                 count += 1;
                 $log.info(`count=${count}`)
                 // 空闲 10*60s 后关闭
