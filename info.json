@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用chatgpt实现翻译功能",
@@ -19,6 +19,22 @@
             "identifier": "loginPassword",
             "type": "text",
             "title": "登录密码"
+        },
+        {
+            "identifier": "serverArea",
+            "type": "menu",
+            "title": "服务器选择",
+            "defaultValue": "hk",
+            "menuValues": [
+                {
+                    "title": "香港",
+                    "value": "hk"
+                },
+                {
+                    "title": "美国",
+                    "value": "usa"
+                }
+            ]
         },
         {
             "identifier": "useStreamFlag",
