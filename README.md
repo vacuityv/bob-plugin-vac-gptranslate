@@ -4,6 +4,8 @@
 
 ## 为chrome开发的选词翻译插件
 
+有任何问题欢迎提issue，或者发邮件给我：vacuityv@icloud.com
+
 效果展示：
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/develop/img/gpt_for_chrome.gif" width="800px">
