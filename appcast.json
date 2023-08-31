@@ -5,7 +5,7 @@
       "version": "0.1.2",
       "desc": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/tag/0.1.2",
       "sha256": "0ac0dc28eab03a3b008242d5cabe467b61fd8a8c85e40debe7196ce1b84b0dca",
-      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.2/youdao-wordbook-bob-plugin-v0.1.2.bobplugin",
+      "url": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/download/0.1.2/bob-plugin-vac-gptranslate.bobplugin",
       "minBobVersion": "0.5.0"
     }
   ]
