@@ -7,7 +7,7 @@
     "icon": "",
     "author": "vacuity",
     "homepage": "",
-    "appcast": "",
+    "appcast": "https://raw.githubusercontent.com/vacuityv/bob-plugin-vac-gptranslate/develop/appcast.json",
     "minBobVersion": "0.5.0",
     "options": [
         {
