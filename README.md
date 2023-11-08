@@ -37,8 +37,6 @@
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/site.jpg" width="800px">
 
 
-2. 注册成功后即可使用
-3. 新注册用户系统会提供7天使用内置chatgptKey的试用，试用期结束后可以联系我激活账号，当然你可以使用自己的key，具体请看下一步
-4. 如果你自己有chatgptKey，可以在设置中填写，这样就可以使用自己的chatgptKey了，就不用激活账号获取更多使用系统key的时间了。
-
-<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/key.jpg" width="800px">
+2. 注册成功后即可使用填写注册邮箱和密码登录bob插件
+3. 新注册用户系统会赠送5的余额（如果你只是用来做翻译这个余额可以使用超级久）
+4. 你可以随时点击网站左侧“消耗”菜单查看账户的消耗信息。
