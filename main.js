@@ -32,12 +32,7 @@ var langMap = {
     'pl': '波兰语',
     'ar': '阿拉伯语'
 };
-
-var hkHttp = "https://chat2.vacuity.me/vac-chat-api/chat/ext/loginTranslate";
-var hkStream = "https://chat2.vacuity.me/vac-chat-api/chat/ext/loginStreamTranslate";
-var hkWss = "wss://chat2.vacuity.me/vac-chat-api/stream/chat/chat";
 var usaHttp = "https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate";
-var usaStream = "https://chat.vacuity.me/vac-chat-api/chat/ext/loginStreamTranslate";
 var usaWss = "wss://chat.vacuity.me/vac-chat-api/stream/chat/chat";
 
 var socket = '';
@@ -78,15 +73,9 @@ function translate(query, completion) {
 }
 
 function oldTranslate(query, completion) {
-
-    var area = $option.serverArea;
-    vacUrl = hkHttp;
-    if (area === 'usa') {
-        vacUrl = usaHttp;
-    }
     $http.request({
         method: "POST",
-        url: vacUrl,
+        url: usaHttp,
         header: {
             "Content-Type": "application/json;charset=UTF-8"
         },
@@ -115,39 +104,6 @@ function oldTranslate(query, completion) {
 }
 
 
-function newTrans(query, completion) {
-
-    var area = $option.serverArea;
-    vacUrl = hkStream;
-    if (area === 'usa') {
-        vacUrl = usaStream;
-    }
-    resTxt = '';
-    $http.streamRequest({
-        method: "POST",
-        url: vacUrl,
-        header: {
-            "Content-Type": "application/json;charset=UTF-8"
-        },
-        body: initReqBody(query),
-        streamHandler: function (resp) {
-            var txt = resp.text;
-            resTxt = resTxt + txt;
-            translateResult = {
-                'toParagraphs': [resTxt]
-            }
-            query.onStream({'result': translateResult});
-        },
-        handler: function (data, rawData, response, error) {
-            query.onCompletion({
-                result: {
-                    toParagraphs: [resTxt],
-                }
-            });
-        }
-    });
-}
-
 
 var websocket = null;
 
@@ -157,11 +113,7 @@ var signal = $signal.new()
 
 function initWebsocket() {
 
-    var area = $option.serverArea;
-    vacUrl = hkWss;
-    if (area === 'usa') {
-        vacUrl = usaWss;
-    }
+    vacUrl = usaWss;
 
     if (websocket == null) {
         $log.info(`initWebsocket`)
@@ -274,12 +226,14 @@ function websocketTrans(query, completion) {
 function initReqBody(query) {
     var account = $option.loginAccount;
     var password = $option.loginPassword;
+    var modelType = $option.modelType;
     var content = query['text'];
 
     return {
         email: account,
         password: password,
         content: content,
+        modelType: modelType,
         targetLanguage: langMap[query['to']],
         translateFrom: 'bob'
     };

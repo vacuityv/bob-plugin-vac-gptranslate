@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "0.1.2",
+    "version": "1.0.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用chatgpt实现翻译功能",
@@ -21,18 +21,22 @@
             "title": "登录密码"
         },
         {
-            "identifier": "serverArea",
+            "identifier": "modelType",
             "type": "menu",
-            "title": "服务器选择",
-            "defaultValue": "hk",
+            "title": "模型选择",
+            "defaultValue": "gpt3.5",
             "menuValues": [
                 {
-                    "title": "香港",
-                    "value": "hk"
+                    "title": "gpt3.5",
+                    "value": "gpt3.5"
                 },
                 {
-                    "title": "美国",
-                    "value": "usa"
+                    "title": "gpt4.0",
+                    "value": "gpt4.0"
+                },
+                {
+                    "title": "gemini-pro",
+                    "value": "gemini-pro"
                 }
             ]
         },
@@ -40,7 +44,7 @@
             "identifier": "useStreamFlag",
             "type": "menu",
             "title": "流式传输",
-            "defaultValue": "false",
+            "defaultValue": "y",
             "menuValues": [
                 {
                     "title": "不使用",
