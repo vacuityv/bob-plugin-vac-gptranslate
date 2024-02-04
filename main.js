@@ -66,6 +66,7 @@ function translate(query, completion) {
 
     if (streamSupFlag && useStreamFlag === 'y') {
         // newTrans(query, completion);
+        $log.info("vac-body" + initReqBody(query));
         websocketTrans(query, completion);
     } else {
         oldTranslate(query, completion);
@@ -73,6 +74,7 @@ function translate(query, completion) {
 }
 
 function oldTranslate(query, completion) {
+    $log.info("vac-body" + initReqBody(query));
     $http.request({
         method: "POST",
         url: usaHttp,
@@ -116,7 +118,7 @@ function initWebsocket() {
     vacUrl = usaWss;
 
     if (websocket == null) {
-        $log.info(`initWebsocket`)
+        $log.info(`initWebsocket`+ vacUrl);
         websocket = $websocket.new({
             url: vacUrl,
             allowSelfSignedSSLCertificates: true,
@@ -181,7 +183,7 @@ function sendSocketMsg(msg) {
         initWebsocket();
     }
     if (websocket.readyState == 1) {
-        $log.info('readyState == 1')
+        $log.info('readyState == 1' + msg)
         websocket.sendString(msg);
     } else {
         var stateTimerId = $timer.schedule({
@@ -228,7 +230,6 @@ function initReqBody(query) {
     var password = $option.loginPassword;
     var modelType = $option.modelType;
     var content = query['text'];
-
     return {
         email: account,
         password: password,
