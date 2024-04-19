@@ -163,8 +163,8 @@ function initWebsocket() {
                 websocket.ping()
                 count += 1;
                 $log.info(`count=${count}`)
-                // 空闲 10*60s 后关闭
-                if (count > 60) {
+                // 空闲 1h 后关闭
+                if (count > 60 * 6) {
                     $timer.invalidate(timerId);
                     if (websocket != null) {
                         websocket.close();
