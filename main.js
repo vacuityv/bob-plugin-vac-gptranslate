@@ -106,19 +106,18 @@ function oldTranslate(query, completion) {
 }
 
 
-
 var websocket = null;
 
 var count = 0;
 var timerId = 0;
 var signal = $signal.new()
 
-function initWebsocket() {
+function initWebsocket(msg) {
 
     vacUrl = usaWss;
 
     if (websocket == null) {
-        $log.info(`initWebsocket`+ vacUrl);
+        $log.info(`initWebsocket` + vacUrl);
         websocket = $websocket.new({
             url: vacUrl,
             allowSelfSignedSSLCertificates: true,
@@ -131,6 +130,7 @@ function initWebsocket() {
         websocket.open();
         websocket.listenOpen(function (socket) {
             $log.info(`did open`);
+            websocket.sendString(msg);
 
             websocket.listenError(function (socket, error) {
                 $log.info(`did error: code=${error.code}; message=${error.message}; type=${error.type}`);
@@ -151,27 +151,6 @@ function initWebsocket() {
         })
 
         count = 0;
-
-        if (timerId != 0) {
-            $timer.invalidate(timerId);
-        }
-
-        timerId = $timer.schedule({
-            interval: 10,
-            repeats: true,
-            handler: function () {
-                websocket.ping()
-                count += 1;
-                $log.info(`count=${count}`)
-                // 空闲 1h 后关闭
-                if (count > 60 * 6) {
-                    $timer.invalidate(timerId);
-                    if (websocket != null) {
-                        websocket.close();
-                    }
-                }
-            }
-        });
     }
 }
 
@@ -180,23 +159,24 @@ function sendSocketMsg(msg) {
     count = 0;
     if (websocket == null || websocket.readyState == 2 || websocket.readyState == 3) {
         websocket = null;
-        initWebsocket();
-    }
-    if (websocket.readyState == 1) {
-        $log.info('readyState == 1' + msg)
-        websocket.sendString(msg);
+        initWebsocket(msg);
     } else {
-        var stateTimerId = $timer.schedule({
-            interval: 1,
-            repeats: true,
-            handler: function () {
-                $log.info(`checkready...state=${websocket.readyState}`)
-                if (websocket.readyState == 1) {
-                    $timer.invalidate(stateTimerId);
-                    websocket.sendString(msg);
+        if (websocket.readyState == 1) {
+            $log.info('readyState == 1' + msg)
+            websocket.sendString(msg);
+        } else {
+            var stateTimerId = $timer.schedule({
+                interval: 1,
+                repeats: true,
+                handler: function () {
+                    $log.info(`checkready...state=${websocket.readyState}`)
+                    if (websocket.readyState == 1) {
+                        $timer.invalidate(stateTimerId);
+                        websocket.sendString(msg);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
 
