@@ -35,6 +35,10 @@
                     "value": "gpt4.0"
                 },
                 {
+                    "title": "gpt4o",
+                    "value": "gpt4o"
+                },
+                {
                     "title": "gemini-pro",
                     "value": "gemini-pro"
                 },
