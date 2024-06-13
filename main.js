@@ -209,6 +209,7 @@ function initReqBody(query) {
     var account = $option.loginAccount;
     var password = $option.loginPassword;
     var modelType = $option.modelType;
+    var prompt = $option.prompt;
     var content = query['text'];
     return {
         email: account,
@@ -216,7 +217,8 @@ function initReqBody(query) {
         content: content,
         modelType: modelType,
         targetLanguage: langMap[query['to']],
-        translateFrom: 'bob'
+        translateFrom: 'bob',
+        prompt: prompt
     };
 }
 
