@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.3.7",
+    "version": "1.3.8",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用chatgpt/gemini/claude实现翻译功能",
@@ -51,12 +51,16 @@
                     "value": "gemini-1.5-flash"
                 },
                 {
-                    "title": "claude2",
+                    "title": "claude-2.1",
                     "value": "claude2"
                 },
                 {
-                    "title": "claude3",
+                    "title": "claude-3-Opus",
                     "value": "claude3"
+                },
+                {
+                    "title": "claude-3.5-sonnet",
+                    "value": "claude-3.5-sonnet"
                 }
             ]
         },
