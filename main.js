@@ -34,6 +34,8 @@ var langMap = {
 };
 var usaHttp = "https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate";
 var usaWss = "wss://chat.vacuity.me/vac-chat-api/stream/chat/chat";
+// var usaHttp = "http://127.0.0.1:8081/vac-chat-api/chat/ext/loginTranslate";
+// var usaWss = "ws://127.0.0.1:8081/vac-chat-api/stream/chat/chat";
 
 var socket = '';
 var readyState = false;
@@ -51,9 +53,11 @@ function translate(query, completion) {
         var env = $env;
         if (typeof env !== "undefined") {
             appVersion = $env.appVersion;
-            if (appVersion >= '1.8.0') {
-                streamSupFlag = true;
+            if (compareVersions(appVersion, '1.8.0') >= 0) {
+                streamSupFlag = true
             }
+        } else {
+            $log.info('get env error, process as old version');
         }
     } catch (error) {
         $log.info('get env error, process as old version');
@@ -63,10 +67,9 @@ function translate(query, completion) {
     $log.info('useStreamFlag');
     $log.info(useStreamFlag);
 
-
     if (streamSupFlag && useStreamFlag === 'y') {
         // newTrans(query, completion);
-        $log.info("vac-body" + initReqBody(query));
+        $log.info("vac-body-stream" + initReqBody(query));
         websocketTrans(query, completion);
     } else {
         oldTranslate(query, completion);
@@ -220,5 +223,20 @@ function initReqBody(query) {
         translateFrom: 'bob',
         prompt: prompt
     };
+}
+
+function compareVersions(version1, version2) {
+    const v1Parts = version1.split('.').map(Number);
+    const v2Parts = version2.split('.').map(Number);
+
+    for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+        const v1Part = v1Parts[i] || 0;
+        const v2Part = v2Parts[i] || 0;
+
+        if (v1Part > v2Part) return 1;
+        if (v1Part < v2Part) return -1;
+    }
+
+    return 0;
 }
 

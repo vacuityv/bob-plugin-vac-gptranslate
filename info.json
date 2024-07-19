@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.3.9",
+    "version": "1.4.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用chatgpt/gemini/claude实现翻译功能",
@@ -24,15 +24,15 @@
             "identifier": "modelType",
             "type": "menu",
             "title": "模型选择",
-            "defaultValue": "gpt3.5",
+            "defaultValue": "gpt-4o-mini",
             "menuValues": [
+                {
+                    "title": "gpt-4o-mini",
+                    "value": "gpt-4o-mini"
+                },
                 {
                     "title": "gpt3.5",
                     "value": "gpt3.5"
-                },
-                {
-                    "title": "gpt4.0",
-                    "value": "gpt4.0"
                 },
                 {
                     "title": "gpt4o",
