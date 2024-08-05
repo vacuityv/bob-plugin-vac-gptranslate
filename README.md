@@ -35,7 +35,7 @@
 
 ## 获取注册邮箱和密码
 
-1. 访问 [此网站](https://chat.vacuity.me/)，注册账号；
+1. 访问 [此网站](https://chat.vacuity.me/)，注册账号(注册好的账号一定要记得在插件的设置填入)；
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/site.jpg" width="800px">
 
