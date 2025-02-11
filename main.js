@@ -188,6 +188,18 @@ function websocketTrans(query, completion) {
     // 移除所有订阅制
     signal.removeAllSubscriber();
     resTxt = '';
+    thoughtFlag = false;
+    showThoughtFlag = false;
+    firstAnswer = true;
+    var modelType = $option.modelType;
+    if (modelType == 'deepseek-reasoner') {
+        thoughtFlag = true;
+        if ($option.showThoughtFlag == 'y') {
+            showThoughtFlag = true;
+            resTxt = '思考过程：\n';
+        }
+    }
+    thoughtEnd = false;
     sendSocketMsg(JSON.stringify(initReqBody(query)));
     signal.subscribe(function (data) {
         msg = data.message
@@ -199,7 +211,28 @@ function websocketTrans(query, completion) {
             });
             return;
         } else {
-            resTxt = resTxt + msg
+            if (thoughtFlag){
+                isThoughtTxt = msg.startsWith("thought:");
+                if (isThoughtTxt) {
+                    if (showThoughtFlag) {
+                        var txt = msg.substring(8);
+                        txt = txt.replace(/\n> /g, "\n");
+                        resTxt = resTxt + txt;
+                    }
+                } else {
+                    if (firstAnswer) {
+                        if (showThoughtFlag) {
+                            resTxt = resTxt + '\n最终翻译结果:\n'
+                        }
+                        resTxt = resTxt + msg;
+                        firstAnswer = false;
+                    } else {
+                        resTxt = resTxt + msg;
+                    }
+                }
+            } else {
+                resTxt = resTxt + msg
+            }
             translateResult = {
                 'toParagraphs': [resTxt]
             }

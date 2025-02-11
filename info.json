@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用openai-chatgpt/google-gemini/anthropic-claude/xai-grok/ali-qwen实现翻译功能",
@@ -53,6 +53,14 @@
                 {
                     "title": "ali-qwen-plus",
                     "value": "qwen-plus"
+                },
+                {
+                    "title": "deepseek-v3",
+                    "value": "deepseek-chat"
+                },
+                {
+                    "title": "deepseek-r1",
+                    "value": "deepseek-reasoner"
                 }
             ]
         },
@@ -69,6 +77,22 @@
                 {
                     "title": "使用(需要版本>=1.8.0)",
                     "value": "y"
+                }
+            ]
+        },
+        {
+            "identifier": "showThoughtFlag",
+            "type": "menu",
+            "title": "显示思考过程",
+            "defaultValue": "y",
+            "menuValues": [
+                {
+                    "title": "是(仅针对思考模型，比如deepseek-r1)",
+                    "value": "y"
+                },
+                {
+                    "title": "否",
+                    "value": "n"
                 }
             ]
         },
