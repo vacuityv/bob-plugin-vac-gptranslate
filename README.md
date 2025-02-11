@@ -4,7 +4,9 @@
 
 有任何问题欢迎提issue，或者发邮件给我：vacuityv@icloud.com
 
-为Bob编写的通过调用chatgpt接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0，采用长连接处理）
+为Bob编写的通过调用国内外众多大模型接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0，采用长连接处理）
+
+<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/models.png" width="400px">
 
 支持最新的deepseek模型，同时支持输出翻译的思考过程（需要选择deepseek-r1模型）
 
