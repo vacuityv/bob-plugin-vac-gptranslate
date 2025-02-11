@@ -41,7 +41,7 @@
 
 1. 访问 [此网站](https://chat.vacuity.me/)，注册账号(注册好的账号一定要记得在插件的设置填入)；
 
-<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/site.jpg" width="800px">
+<img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/develop/img/site.png" width="800px">
 
 
 2. 注册成功后即可使用填写注册邮箱和密码登录bob插件
