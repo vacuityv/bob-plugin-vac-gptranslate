@@ -1,12 +1,12 @@
 # bob-plugin-vac-gptranslate
 
+> 欢迎体验个人对接的各大厂商AI的交互网站：[AI-CHAT](https://chat.vacuity.me/)
+
 有任何问题欢迎提issue，或者发邮件给我：vacuityv@icloud.com
 
 为Bob编写的通过调用chatgpt接口服务实现翻译的插件。支持流式传输（需要bob版本>=1.8.0，采用长连接处理）
 
-
-> 欢迎体验个人对接的各大厂商AI的交互网站：[AI-CHAT](https://chat.vacuity.me/)
-
+支持最新的deepseek模型，同时支持输出翻译的思考过程（需要选择deepseek-r1模型）
 
 ## 为chrome开发的选词翻译插件
 
@@ -30,7 +30,9 @@
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/main/img/add.jpg" width="800px">
 
-5. 填写注册邮箱和密码
+5. 选择翻译模型，支持国内外多个模型；
+
+6. 填写注册邮箱和密码
 
 
 ## 获取注册邮箱和密码
