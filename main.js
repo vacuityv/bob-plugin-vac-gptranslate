@@ -192,7 +192,7 @@ function websocketTrans(query, completion) {
     showThoughtFlag = false;
     firstAnswer = true;
     var modelType = $option.modelType;
-    if (modelType == 'deepseek-reasoner') {
+    if (modelType == 'deepseek-reasoner' || modelType == 'claude-3.7-sonnet') {
         thoughtFlag = true;
         if ($option.showThoughtFlag == 'y') {
             showThoughtFlag = true;
@@ -222,7 +222,7 @@ function websocketTrans(query, completion) {
                 } else {
                     if (firstAnswer) {
                         if (showThoughtFlag) {
-                            resTxt = resTxt + '\n最终翻译结果:\n'
+                            resTxt = resTxt + '\n\n最终翻译结果:\n\n'
                         }
                         resTxt = resTxt + msg;
                         firstAnswer = false;
