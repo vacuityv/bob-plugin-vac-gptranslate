@@ -4,7 +4,7 @@
     {
       "version": "1.7.2",
       "desc": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/tag/1.7.2",
-      "sha256": "1272ea996e0493340215750e772ff66f0193ddd4e88a6fc05fcebacdc3fe53ab",
+      "sha256": "697a319097093b7481fca155a3fe713b6897746beadc05cd9191f697988fe80f",
       "url": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/download/1.2.1/bob-plugin-vac-gptranslate.bobplugin",
       "minBobVersion": "0.5.0"
     }
