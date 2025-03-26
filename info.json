@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.7.2",
+    "version": "1.7.3",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用 openai-chatgpt/google-gemini/anthropic-claude/xai-grok/ali-qwen 实现翻译功能，支持流式输出，针对思考模型支持输出思考过程",
