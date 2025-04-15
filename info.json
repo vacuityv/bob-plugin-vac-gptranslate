@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.7.5",
+    "version": "1.7.6",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用 openai-chatgpt/google-gemini/anthropic-claude/xai-grok/deepseek/ali-qwen 实现翻译功能，支持流式输出，针对思考模型支持输出思考过程",
@@ -27,6 +27,10 @@
             "defaultValue": "gpt4o",
             "menuValues": [
                 {
+                    "title": "gpt-4.1",
+                    "value": "gpt-4.1"
+                },
+                {
                     "title": "gpt-4o",
                     "value": "gpt-4o"
                 },
@@ -45,10 +49,6 @@
                 {
                     "title": "claude-3.5-sonnet",
                     "value": "claude-3.5-sonnet"
-                },
-                {
-                    "title": "grok-2",
-                    "value": "grok-2"
                 },
                 {
                     "title": "grok-3",
