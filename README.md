@@ -1,6 +1,8 @@
 # bob-plugin-vac-gptranslate
 
-> 欢迎体验个人对接的各大厂商AI的交互网站：[AI-CHAT](https://chat.vacuity.me/)
+> 欢迎体验个人对接的各大厂商AI的交互网站：
+> [AI-CHAT-国内](https://chat.aipolish.online/)
+> [AI-CHAT-国际（备用）](https://chat.vacuity.me/)
 
 有任何问题欢迎提issue，或者发邮件给我：vacuityv@icloud.com
 
@@ -39,7 +41,8 @@
 
 ## 获取注册邮箱和密码
 
-1. 访问 [此网站](https://chat.vacuity.me/)，注册账号(注册好的账号一定要记得在插件的设置填入)；
+1. 访问 [此网站](https://chat.aipolish.online/)，注册账号(注册好的账号一定要记得在插件的设置填入)；
+   [备用网站](https://chat.vacuity.me/)
 
 <img src="https://github.com/vacuityv/bob-plugin-vac-gptranslate/blob/develop/img/site.png" width="800px">
 
@@ -47,3 +50,4 @@
 2. 注册成功后即可使用填写注册邮箱和密码登录bob插件
 3. 新注册用户系统会赠送2的余额（如果你只是用做翻译这个余额可以使用很久）
 4. 你可以随时点击网站左侧“个人中心”查看账户的消耗信息。
+5. 如遇到问题可以在插件设置切换服务器

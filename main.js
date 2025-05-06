@@ -32,10 +32,21 @@ var langMap = {
     'pl': '波兰语',
     'ar': '阿拉伯语'
 };
-var usaHttp = "https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate";
-var usaWss = "wss://chat.vacuity.me/vac-chat-api/stream/chat/chat";
+
+// var usaHttp = "https://chat.aipolish.online/vac-chat-api/chat/ext/loginTranslate";
+// var usaWss = "wss://chat.aipolish.online/vac-chat-api/stream/chat/chat";
 // var usaHttp = "http://127.0.0.1:8081/vac-chat-api/chat/ext/loginTranslate";
 // var usaWss = "ws://127.0.0.1:8081/vac-chat-api/stream/chat/chat";
+let serverMap = {
+    'china': {
+        'http': 'https://chat.aipolish.online/vac-chat-api/chat/ext/loginTranslate',
+        'wss': 'wss://chat.aipolish.online/vac-chat-api/stream/chat/chat'
+    },
+    'usa': {
+        'http': 'https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate',
+        'wss': 'wss://chat.vacuity.me/vac-chat-api/stream/chat/chat'
+    },
+}
 
 var socket = '';
 var readyState = false;
@@ -77,10 +88,11 @@ function translate(query, completion) {
 }
 
 function oldTranslate(query, completion) {
+    var url = serverMap[$option.server].http;
     $log.info("vac-body" + initReqBody(query));
     $http.request({
         method: "POST",
-        url: usaHttp,
+        url: url,
         header: {
             "Content-Type": "application/json;charset=UTF-8"
         },
@@ -115,14 +127,13 @@ var count = 0;
 var timerId = 0;
 var signal = $signal.new()
 
-function initWebsocket(msg) {
+function initWebsocket(wssUrl, msg) {
 
-    vacUrl = usaWss;
 
     if (websocket == null) {
-        $log.info(`initWebsocket` + vacUrl);
+        $log.info(`initWebsocket` + wssUrl);
         websocket = $websocket.new({
-            url: vacUrl,
+            url: wssUrl,
             allowSelfSignedSSLCertificates: true,
             timeoutInterval: 100,
             header: {
@@ -157,12 +168,12 @@ function initWebsocket(msg) {
     }
 }
 
-function sendSocketMsg(msg) {
+function sendSocketMsg(wssUrl, msg) {
     $log.info(`sendSocketMsg`)
     count = 0;
     if (websocket == null || websocket.readyState == 2 || websocket.readyState == 3) {
         websocket = null;
-        initWebsocket(msg);
+        initWebsocket(wssUrl, msg);
     } else {
         if (websocket.readyState == 1) {
             $log.info('readyState == 1' + msg)
@@ -199,8 +210,9 @@ function websocketTrans(query, completion) {
             resTxt = '思考过程：\n';
         }
     }
+    var wssUrl = serverMap[$option.server].wss;
     thoughtEnd = false;
-    sendSocketMsg(JSON.stringify(initReqBody(query)));
+    sendSocketMsg(wssUrl, JSON.stringify(initReqBody(query)));
     signal.subscribe(function (data) {
         msg = data.message
         if (msg == '###FINISH###') {
