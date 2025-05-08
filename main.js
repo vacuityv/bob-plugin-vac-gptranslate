@@ -37,7 +37,7 @@ var langMap = {
 // var usaWss = "wss://chat.aipolish.online/vac-chat-api/stream/chat/chat";
 // var usaHttp = "http://127.0.0.1:8081/vac-chat-api/chat/ext/loginTranslate";
 // var usaWss = "ws://127.0.0.1:8081/vac-chat-api/stream/chat/chat";
-let serverMap = {
+var serverMap = {
     'china': {
         'http': 'https://chat.aipolish.online/vac-chat-api/chat/ext/loginTranslate',
         'wss': 'wss://chat.aipolish.online/vac-chat-api/stream/chat/chat'
