@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "1.8.2",
+    "version": "1.8.3",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用 openai-chatgpt/google-gemini/anthropic-claude/xai-grok/deepseek/ali-qwen 实现翻译功能，支持流式输出，针对思考模型支持输出思考过程",
@@ -40,7 +40,7 @@
             "identifier": "modelType",
             "type": "menu",
             "title": "模型选择",
-            "defaultValue": "gpt4o",
+            "defaultValue": "gpt-4o",
             "menuValues": [
                 {
                     "title": "gpt-4.1",
@@ -59,8 +59,12 @@
                     "value": "gemini-2.0-flash-exp"
                 },
                 {
-                    "title": "gemini-2.5-pro-exp",
-                    "value": "gemini-2.5-pro-exp"
+                    "title": "gemini-2.5-pro",
+                    "value": "gemini-2.5-pro"
+                },
+                {
+                    "title": "claude-sonnet-4",
+                    "value": "claude-sonnet-4"
                 },
                 {
                     "title": "claude-3.7-sonnet",
