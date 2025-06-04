@@ -203,7 +203,7 @@ function websocketTrans(query, completion) {
     showThoughtFlag = false;
     firstAnswer = true;
     var modelType = $option.modelType;
-    if (modelType == 'deepseek-reasoner' || modelType == 'claude-3.7-sonnet') {
+    if (modelType == 'deepseek-reasoner' || modelType == 'claude-3.7-sonnet' || modelType == 'claude-sonnet-4') {
         thoughtFlag = true;
         if ($option.showThoughtFlag == 'y') {
             showThoughtFlag = true;
