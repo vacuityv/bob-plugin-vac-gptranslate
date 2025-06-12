@@ -147,7 +147,7 @@ function sseTrans(query, completion) {
 
             var lines = data.split('\n');
             for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
+                var line = lines[i];
                 $log.info('SSE received line:' + line);
                 if (line != '') {
                     msg = line;
