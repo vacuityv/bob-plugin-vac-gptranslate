@@ -152,7 +152,7 @@ function sseTrans(query, completion) {
                 if (line != '') {
                     msg = line;
                     if (line.startsWith('data:')) {
-                        msg = line.substring(5).trim();
+                        msg = line.substring(5);
                     }
                     if (msg === '[DONE]' || msg === '###FINISH###') {
                         query.onCompletion({
