@@ -33,24 +33,17 @@ var langMap = {
     'ar': '阿拉伯语'
 };
 
-// var usaHttp = "https://chat.aipolish.online/vac-chat-api/chat/ext/loginTranslate";
-// var usaWss = "wss://chat.aipolish.online/vac-chat-api/stream/chat/chat";
-// var usaHttp = "http://127.0.0.1:8081/vac-chat-api/chat/ext/loginTranslate";
-// var usaWss = "ws://127.0.0.1:8081/vac-chat-api/stream/chat/chat";
 var serverMap = {
     'china': {
         'http': 'https://chat.aipolish.online/vac-chat-api/chat/ext/loginTranslate',
-        'wss': 'wss://chat.aipolish.online/vac-chat-api/stream/chat/chat'
+        'sseSend': 'https://chat.aipolish.online/vac-chat-api/stream/chat/sse/loginTranslate'
     },
     'usa': {
         'http': 'https://chat.vacuity.me/vac-chat-api/chat/ext/loginTranslate',
-        'wss': 'wss://chat.vacuity.me/vac-chat-api/stream/chat/chat'
+        'sseSend': 'https://chat.vacuity.me/vac-chat-api/stream/chat/sse/loginTranslate'
     },
 }
 
-var socket = '';
-var readyState = false;
-var connectIng = true;
 
 function supportLanguages() {
     return ['auto', 'zh-Hans', 'zh-Hant', 'yue', 'wyw', 'pysx', 'en', 'ja', 'ko', 'fr', 'de', 'es', 'it', 'ru', 'pt', 'nl', 'pl', 'ar'];
@@ -79,9 +72,8 @@ function translate(query, completion) {
     $log.info(useStreamFlag);
 
     if (streamSupFlag && useStreamFlag === 'y') {
-        // newTrans(query, completion);
         $log.info("vac-body-stream" + initReqBody(query));
-        websocketTrans(query, completion);
+        sseTrans(query, completion);
     } else {
         oldTranslate(query, completion);
     }
@@ -121,87 +113,12 @@ function oldTranslate(query, completion) {
 }
 
 
-var websocket = null;
-
-var count = 0;
-var timerId = 0;
-var signal = $signal.new()
-
-function initWebsocket(wssUrl, msg) {
-
-
-    if (websocket == null) {
-        $log.info(`initWebsocket` + wssUrl);
-        websocket = $websocket.new({
-            url: wssUrl,
-            allowSelfSignedSSLCertificates: true,
-            timeoutInterval: 100,
-            header: {
-                "Sec-WebSocket-Protocol": "someother protocols",
-                "Sec-WebSocket-Version": "14",
-            }
-        })
-        websocket.open();
-        websocket.listenOpen(function (socket) {
-            $log.info(`did open`);
-            websocket.sendString(msg);
-
-            websocket.listenError(function (socket, error) {
-                $log.info(`did error: code=${error.code}; message=${error.message}; type=${error.type}`);
-            })
-            websocket.listenReceiveData(function (socket, data) {
-                $log.info(`did receive data: length=${data.length}`);
-                count = 0;
-                signal.send({"message": data})
-            })
-            socket.listenReceiveString(function (socket, string) {
-                $log.info(`did receive string: ${string}`);
-                count = 0;
-                signal.send({"message": string})
-            })
-        })
-        websocket.listenClose(function (socket, code, reason) {
-            $log.info(`did close: code=${code}; reason=${reason}`);
-        })
-
-        count = 0;
-    }
-}
-
-function sendSocketMsg(wssUrl, msg) {
-    $log.info(`sendSocketMsg`)
-    count = 0;
-    if (websocket == null || websocket.readyState == 2 || websocket.readyState == 3) {
-        websocket = null;
-        initWebsocket(wssUrl, msg);
-    } else {
-        if (websocket.readyState == 1) {
-            $log.info('readyState == 1' + msg)
-            websocket.sendString(msg);
-        } else {
-            var stateTimerId = $timer.schedule({
-                interval: 1,
-                repeats: true,
-                handler: function () {
-                    $log.info(`checkready...state=${websocket.readyState}`)
-                    if (websocket.readyState == 1) {
-                        $timer.invalidate(stateTimerId);
-                        websocket.sendString(msg);
-                    }
-                }
-            });
-        }
-    }
-}
-
-function websocketTrans(query, completion) {
-    $log.info(`websocketTrans`)
-    // 移除所有订阅制
-    signal.removeAllSubscriber();
-    resTxt = '';
-    thoughtFlag = false;
-    showThoughtFlag = false;
-    firstAnswer = true;
+function sseTrans(query, completion) {
+    $log.info(`sseTrans`)
+    var resTxt = '';
+    var thoughtFlag = false;
+    var showThoughtFlag = false;
+    var firstAnswer = true;
     var modelType = $option.modelType;
     if (modelType == 'deepseek-reasoner' || modelType == 'claude-3.7-sonnet' || modelType == 'claude-sonnet-4') {
         thoughtFlag = true;
@@ -210,47 +127,84 @@ function websocketTrans(query, completion) {
             resTxt = '思考过程：\n';
         }
     }
-    var wssUrl = serverMap[$option.server].wss;
-    thoughtEnd = false;
-    sendSocketMsg(wssUrl, JSON.stringify(initReqBody(query)));
-    signal.subscribe(function (data) {
-        msg = data.message
-        if (msg == '###FINISH###') {
-            query.onCompletion({
-                result: {
-                    toParagraphs: [resTxt],
-                }
-            });
-            return;
-        } else {
-            if (thoughtFlag){
-                isThoughtTxt = msg.startsWith("thought:");
-                if (isThoughtTxt) {
-                    if (showThoughtFlag) {
-                        var txt = msg.substring(8);
-                        txt = txt.replace(/\n> /g, "\n");
-                        resTxt = resTxt + txt;
+    var sseUrl = serverMap[$option.server].sseSend;
+
+    $http.streamRequest({
+        method: "POST",
+        url: sseUrl,
+        header: {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Accept": "text/event-stream"
+        },
+        body: initReqBody(query),
+        streamHandler: function (stream) {
+            var data = stream.text;
+            $log.info('SSE received data:' + data);
+
+            if (data.trim() === '') {
+                return;
+            }
+
+            var lines = data.split('\n');
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                $log.info('SSE received line:' + line);
+                if (line != '') {
+                    msg = line;
+                    if (line.startsWith('data:')) {
+                        msg = line.substring(5).trim();
                     }
-                } else {
-                    if (firstAnswer) {
-                        if (showThoughtFlag) {
-                            resTxt = resTxt + '\n\n最终翻译结果:\n\n'
+                    if (msg === '[DONE]' || msg === '###FINISH###') {
+                        query.onCompletion({
+                            result: {
+                                toParagraphs: [resTxt],
+                            }
+                        });
+                        return;
+                    }
+
+                    if (msg === '') {
+                        continue;
+                    }
+
+                    if (thoughtFlag) {
+                        var isThoughtTxt = msg.startsWith("thought:");
+                        if (isThoughtTxt) {
+                            if (showThoughtFlag) {
+                                var txt = msg.substring(8);
+                                txt = txt.replace(/\n> /g, "\n");
+                                resTxt = resTxt + txt;
+                            }
+                        } else {
+                            if (firstAnswer) {
+                                if (showThoughtFlag) {
+                                    resTxt = resTxt + '\n\n最终翻译结果:\n\n'
+                                }
+                                resTxt = resTxt + msg;
+                                firstAnswer = false;
+                            } else {
+                                resTxt = resTxt + msg;
+                            }
                         }
-                        resTxt = resTxt + msg;
-                        firstAnswer = false;
                     } else {
-                        resTxt = resTxt + msg;
+                        resTxt = resTxt + msg
                     }
+                    $log.info('resTxt:' + resTxt);
+                    var translateResult = {
+                        'toParagraphs': [resTxt]
+                    }
+                    query.onStream({'result': translateResult});
                 }
-            } else {
-                resTxt = resTxt + msg
             }
-            translateResult = {
-                'toParagraphs': [resTxt]
+        },
+        handler: function (resp) {
+            $log.info('SSE request completed');
+            if (resp.error) {
+                $log.info('SSE error: ' + resp.error);
+                completion({'error': resp.error});
             }
-            query.onStream({'result': translateResult});
         }
-    })
+    });
 }
 
 function initReqBody(query) {
