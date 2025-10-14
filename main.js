@@ -120,7 +120,7 @@ function sseTrans(query, completion) {
     var showThoughtFlag = false;
     var firstAnswer = true;
     var modelType = $option.modelType;
-    if (modelType == 'deepseek-reasoner' || modelType == 'claude-3.7-sonnet' || modelType == 'claude-sonnet-4') {
+    if (modelType == 'deepseek-reasoner' || (modelType.includes('claude') && modelType != 'claude-3.5-sonnet')) {
         thoughtFlag = true;
         if ($option.showThoughtFlag == 'y') {
             showThoughtFlag = true;

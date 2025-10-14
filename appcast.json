@@ -2,10 +2,10 @@
   "identifier": "me.vacuity.chat.gptranslate",
   "versions": [
     {
-      "version": "2.0.2",
-      "desc": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/tag/2.0.2",
-      "sha256": "b1aa1d4ef362b182b76edf2358bb63858baf31233f8400e6034a0e96406f593c",
-      "url": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/download/2.0.2/bob-plugin-vac-gptranslate.bobplugin",
+      "version": "2.0.3",
+      "desc": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/tag/2.0.3",
+      "sha256": "96203d7fddaab0646b0c974d0d163cd563a25df553b7091622823771525a3a66",
+      "url": "https://github.com/vacuityv/bob-plugin-vac-gptranslate/releases/download/2.0.3/bob-plugin-vac-gptranslate.bobplugin",
       "minBobVersion": "0.5.0"
     }
   ]
