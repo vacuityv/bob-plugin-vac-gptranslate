@@ -116,17 +116,6 @@ function oldTranslate(query, completion) {
 function sseTrans(query, completion) {
     $log.info(`sseTrans`)
     var resTxt = '';
-    var thoughtFlag = false;
-    var showThoughtFlag = false;
-    var firstAnswer = true;
-    var modelType = $option.modelType;
-    if (modelType == 'deepseek-reasoner' || (modelType.includes('claude') && modelType != 'claude-3.5-sonnet')) {
-        thoughtFlag = true;
-        if ($option.showThoughtFlag == 'y') {
-            showThoughtFlag = true;
-            resTxt = '思考过程：\n';
-        }
-    }
     var sseUrl = serverMap[$option.server].sseSend;
 
     $http.streamRequest({
@@ -167,28 +156,10 @@ function sseTrans(query, completion) {
                         continue;
                     }
 
-                    if (thoughtFlag) {
-                        var isThoughtTxt = msg.startsWith("thought:");
-                        if (isThoughtTxt) {
-                            if (showThoughtFlag) {
-                                var txt = msg.substring(8);
-                                txt = txt.replace(/\n> /g, "\n");
-                                resTxt = resTxt + txt;
-                            }
-                        } else {
-                            if (firstAnswer) {
-                                if (showThoughtFlag) {
-                                    resTxt = resTxt + '\n\n最终翻译结果:\n\n'
-                                }
-                                resTxt = resTxt + msg;
-                                firstAnswer = false;
-                            } else {
-                                resTxt = resTxt + msg;
-                            }
-                        }
-                    } else {
-                        resTxt = resTxt + msg
+                    if (msg.startsWith("thought:")) {
+                        continue;
                     }
+                    resTxt = resTxt + msg;
                     $log.info('resTxt:' + resTxt);
                     var translateResult = {
                         'toParagraphs': [resTxt]
