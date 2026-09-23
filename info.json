@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用 openai-chatgpt/anthropic-claude/google-gemini/xai-grok/deepseek 实现翻译功能，支持流式输出",
@@ -40,27 +40,27 @@
             "identifier": "modelType",
             "type": "menu",
             "title": "模型选择",
-            "defaultValue": "gpt-5.6-sol",
+            "defaultValue": "gpt-6-sol",
             "menuValues": [
                 {
                     "title": "gpt-6-astra",
                     "value": "gpt-6-astra"
                 },
                 {
-                    "title": "gpt-5.6-sol",
-                    "value": "gpt-5.6-sol"
+                    "title": "gpt-6-sol",
+                    "value": "gpt-6-sol"
                 },
                 {
                     "title": "gpt-5.6-terra",
                     "value": "gpt-5.6-terra"
                 },
                 {
-                    "title": "gpt-5.6-luna",
-                    "value": "gpt-5.6-luna"
+                    "title": "gpt-6-luna",
+                    "value": "gpt-6-luna"
                 },
                 {
-                    "title": "claude-opus-5",
-                    "value": "claude-opus-5"
+                    "title": "claude-opus-5.5",
+                    "value": "claude-opus-5.5"
                 },
                 {
                     "title": "claude-fable-5.1",
@@ -71,10 +71,6 @@
                     "value": "claude-sonnet-5"
                 },
                 {
-                    "title": "claude-opus-4.8",
-                    "value": "claude-opus-4.8"
-                },
-                {
                     "title": "gemini-3.8-flash",
                     "value": "gemini-3.8-flash"
                 },
@@ -83,8 +79,8 @@
                     "value": "gemini-3.1-pro"
                 },
                 {
-                    "title": "grok-4.5",
-                    "value": "grok-4.5"
+                    "title": "grok-4.7",
+                    "value": "grok-4.7"
                 },
                 {
                     "title": "deepseek-v4-flash",
