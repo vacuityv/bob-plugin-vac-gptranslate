@@ -1,6 +1,6 @@
 {
     "identifier": "me.vacuity.chat.gptranslate",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "category": "translate",
     "name": "GPTranslate",
     "summary": "调用 openai-chatgpt/anthropic-claude/google-gemini/xai-grok/deepseek 实现翻译功能，支持流式输出",
@@ -69,6 +69,10 @@
                 {
                     "title": "claude-sonnet-5.5",
                     "value": "claude-sonnet-5.5"
+                },
+                {
+                    "title": "gemini-4-argon",
+                    "value": "gemini-4-argon"
                 },
                 {
                     "title": "gemini-3.8-flash",
